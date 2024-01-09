@@ -3,14 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBig : Player, ISpeed
+public class PlayerBig : Player
 {
-    public void SetSpeed(float speed)
-    {
-        m_Speed *= speed;
-    }
-
-    protected override float GetHorizontalMove()
+   protected override float GetHorizontalMove()
     {
         if (Input.GetKey(KeyCode.LeftArrow))
             return -1;
