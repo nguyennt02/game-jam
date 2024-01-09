@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public abstract class Player : MonoBehaviour, IDie
+public abstract class Player : MonoBehaviour, IDie, ISpeed
 {
     [SerializeField] protected string m_Tag;
     [SerializeField] protected float m_Speed;
@@ -12,6 +12,7 @@ public abstract class Player : MonoBehaviour, IDie
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected Vector2 boxEdge;
+    [SerializeField] protected GameObject[] lstParent;
     [Range(0, .3f)]
     [SerializeField] protected float movementSmoothing = .05f;
 
@@ -58,10 +59,22 @@ public abstract class Player : MonoBehaviour, IDie
         {
             if (colliders[i].gameObject != gameObject)
                 m_Grounded = true;
-            SetPlayerSmall(colliders[i].gameObject);
+            SetPlayer(colliders[i].gameObject);
         }
     }
-    protected virtual void SetPlayerSmall(GameObject objectParent) {}
+    protected virtual void SetPlayer(GameObject objectParent) {
+        foreach (var obj in lstParent)
+        {
+            if (objectParent == obj)
+            {
+                transform.SetParent(obj.transform);
+            }
+            else
+            {
+                transform.SetParent(null);
+            }
+        }
+    }
 
     protected virtual void Moving(float move)
     {
@@ -99,5 +112,10 @@ public abstract class Player : MonoBehaviour, IDie
         anim.SetTrigger("Dead");
         string currentSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentSceneName);
+    }
+
+    public virtual void SetSpeed(float speed)
+    {
+        m_Speed *= speed;
     }
 }
