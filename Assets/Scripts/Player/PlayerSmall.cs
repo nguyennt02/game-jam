@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerSmall : Player
 {
-    [SerializeField] private GameObject[] lstParent;
     protected override float GetHorizontalMove()
     {
         if (Input.GetKey(KeyCode.A))
@@ -18,19 +17,5 @@ public class PlayerSmall : Player
     protected override bool GetJumping()
     {
         return Input.GetKeyDown(KeyCode.W);
-    }
-    protected override void SetPlayerSmall(GameObject objectParent)
-    {
-        foreach (var obj in lstParent)
-        {
-            if (objectParent == obj)
-            {
-                transform.SetParent(obj.transform);
-            }
-            else
-            {
-                transform.SetParent(null);
-            }
-        }
     }
 }
