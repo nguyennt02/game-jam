@@ -1,5 +1,7 @@
 using Assets.Scripts.Interface;
+using System.Collections;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class WarterArea : MonoBehaviour, IActivated
 {
@@ -10,9 +12,19 @@ public class WarterArea : MonoBehaviour, IActivated
     /// </summary>
     [SerializeField] private int m_WaterLevel = 0;
 
+    private Coroutine mCoroutine;
+
+    private void OnDestroy()
+    {
+        if (mCoroutine != null) StopCoroutine(mCoroutine);
+        mCoroutine = null;
+    }
+
+    [ContextMenu("Test Active")]
     public void Activate()
     {
-        m_WaterLevel++;
+        if (mCoroutine != null) return;
+        mCoroutine = StartCoroutine(IEReduceLevel());
     }
 
 
@@ -68,4 +80,21 @@ public class WarterArea : MonoBehaviour, IActivated
         if (character == null) return;
         Drag(character);
     }
+
+    private IEnumerator IEReduceLevel(float time = 1f)
+    {
+        var mTime = 0f;
+        var size = transform.localScale;
+        var yScale = size.y;
+        while (mTime < time)
+        {
+            yScale = size.y * (time - mTime) / time;
+            transform.localScale = new Vector2(size.x, yScale);
+            mTime += Time.deltaTime;
+            yield return null;
+        }
+        m_WaterLevel = 2;
+        Destroy(gameObject);
+    }
+
 }
