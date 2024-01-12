@@ -84,14 +84,19 @@ public class CameraCtrl : MonoBehaviour
     private void CheckZoomCam()
     {
         if (targets == null || targets.Length <= 0) return;
-        float maxDistance = 0f;
+        float maxDistanceX = 0f;
+        float maxDistanceY = 0f;
+
         foreach (var player in targets)
         {
-            float distance = Vector3.Distance(player.transform.position, positionCenter);
-            maxDistance = Mathf.Max(maxDistance, distance);
+            float distanceX = Mathf.Abs(player.transform.position.x - positionCenter.x);
+            float distanceY = Mathf.Abs(player.transform.position.y - positionCenter.y);
+            maxDistanceX = Mathf.Max(maxDistanceX, distanceX);
+            maxDistanceY = Mathf.Max(maxDistanceY, distanceY);
         }
-        maxDistance /= zoomScale > 0 ? zoomLerpSpeed : 1;
-        float targetZoom = maxDistance > minZoom ? maxDistance : minZoom;
+
+        var targetZoom = maxDistanceX > maxDistanceY ? maxDistanceX : maxDistanceY;
+        targetZoom = (targetZoom / zoomScale) > minZoom ? (targetZoom / zoomScale) : minZoom;
         mainCam.orthographicSize = Mathf.Lerp(mainCam.orthographicSize, targetZoom, Time.deltaTime * zoomLerpSpeed);
     }
 
