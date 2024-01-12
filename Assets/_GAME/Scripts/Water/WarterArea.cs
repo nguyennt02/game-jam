@@ -86,7 +86,7 @@ public class WarterArea : MonoBehaviour, IActivated
         var mTime = 0f;
         var size = transform.localScale;
         var yScale = size.y;
-        while (mTime < time)
+        while (mTime < time && yScale < (size.y / 3))
         {
             yScale = size.y * (time - mTime) / time;
             transform.localScale = new Vector2(size.x, yScale);
@@ -94,7 +94,6 @@ public class WarterArea : MonoBehaviour, IActivated
             yield return null;
         }
         m_WaterLevel = 2;
-        Destroy(gameObject);
     }
 
 }
