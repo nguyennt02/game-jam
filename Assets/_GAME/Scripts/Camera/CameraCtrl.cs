@@ -94,9 +94,9 @@ public class CameraCtrl : MonoBehaviour
             maxDistanceX = Mathf.Max(maxDistanceX, distanceX);
             maxDistanceY = Mathf.Max(maxDistanceY, distanceY);
         }
-        float targetZoomX = (maxDistanceX/zoomScale) > minZoom ? (maxDistanceX / zoomScale) : minZoom;
-        float targetZoomY = (maxDistanceY / zoomScale) > minZoom ? (maxDistanceY / zoomScale) : minZoom;
-        float targetZoom = targetZoomX > targetZoomY ? targetZoomX : targetZoomY;
+
+        var targetZoom = maxDistanceX > maxDistanceY ? maxDistanceX : maxDistanceY;
+        targetZoom = (targetZoom / zoomScale) > minZoom ? (targetZoom / zoomScale) : minZoom;
         mainCam.orthographicSize = Mathf.Lerp(mainCam.orthographicSize, targetZoom, Time.deltaTime * zoomLerpSpeed);
     }
 
