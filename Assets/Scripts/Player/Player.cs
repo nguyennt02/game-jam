@@ -59,17 +59,32 @@ public abstract class Player : MonoBehaviour, IDie, ISpeed
         {
             if (colliders[i].gameObject != gameObject)
                 m_Grounded = true;
-            SetPlayer(colliders[i].gameObject);
         }
     }
-    protected virtual void SetPlayer(GameObject objectParent) {
+
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        SetPlayerParent(collision.gameObject);
+    }
+    protected virtual void OnCollisionExit2D(Collision2D collision)
+    {
+        SetPlayer(collision.gameObject);
+    }
+    protected virtual void SetPlayerParent(GameObject objectParent) {
         foreach (var obj in lstParent)
         {
             if (objectParent == obj)
             {
                 transform.SetParent(obj.transform);
             }
-            else
+        }
+    }
+
+    protected virtual void SetPlayer(GameObject objectParent)
+    {
+        foreach (var obj in lstParent)
+        {
+            if (objectParent == obj)
             {
                 transform.SetParent(null);
             }
