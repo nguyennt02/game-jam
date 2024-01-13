@@ -17,7 +17,8 @@ public class CameraCtrl : MonoBehaviour
     [Header("Camera Properties")]
     [SerializeField] private float minZoom = 5f;
     [SerializeField] private float zoomLerpSpeed = 5f;
-    [SerializeField] private float zoomScale = 1.5f;
+    [SerializeField] private float zoomScaleY = 0.8f;
+    [SerializeField] private float zoomScaleX = 1.5f;
     #endregion
 
     #region FIELD
@@ -96,6 +97,7 @@ public class CameraCtrl : MonoBehaviour
         }
 
         var targetZoom = maxDistanceX > maxDistanceY ? maxDistanceX : maxDistanceY;
+        var zoomScale = maxDistanceX > maxDistanceY ? zoomScaleX : zoomScaleY;
         targetZoom = (targetZoom / zoomScale) > minZoom ? (targetZoom / zoomScale) : minZoom;
         mainCam.orthographicSize = Mathf.Lerp(mainCam.orthographicSize, targetZoom, Time.deltaTime * zoomLerpSpeed);
     }
