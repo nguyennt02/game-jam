@@ -93,7 +93,7 @@ public class WarterArea : MonoBehaviour, IActivated
             mTime += Time.deltaTime;
             yield return null;
         }
-        m_WaterLevel = 2;
+        m_WaterLevel = 1;
     }
 
 }
