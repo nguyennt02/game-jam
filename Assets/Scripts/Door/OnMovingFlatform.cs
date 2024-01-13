@@ -7,6 +7,7 @@ using UnityEngine;
 public class OnMovingFlatform : MonoBehaviour, IActivated
 {
     [SerializeField] protected MovingFlatfrom m_Flatform;
+    [SerializeField] protected float m_WaitingTime;
 
     public virtual void Activate()
     {
@@ -14,7 +15,7 @@ public class OnMovingFlatform : MonoBehaviour, IActivated
     }
     protected virtual IEnumerator Enabled()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(m_WaitingTime);
         m_Flatform.enabled = true;
     }
 }
